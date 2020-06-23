@@ -27,6 +27,10 @@ class UEyeServerBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Execute Sample function", Keywords = "EyeServer sample test testing"), Category = "EyeServerTesting")
-	static float EyeServerSampleFunction(float Param);
+	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+		static void Connect();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+		static void Disconnect();
+
 };

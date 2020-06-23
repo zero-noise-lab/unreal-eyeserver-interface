@@ -1,6 +1,0 @@
-C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Intermediate\Build\Win64\UE4Editor\Development\EyeServer\Definitions.EyeServer.h
-C:/Work/Projects/VR_Setup/DaqTest/Plugins/EyeServer/Source/EyeServer/Private/EyeServer.cpp
-C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Source\EyeServer\Public\EyeServer.h
-C:/Work/Projects/VR_Setup/DaqTest/Plugins/EyeServer/Source/EyeServer/Private/EyeServerBPLibrary.cpp
-C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Source\EyeServer\Public\EyeServerBPLibrary.h
-C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Intermediate\Build\Win64\UE4Editor\Inc\EyeServer\EyeServerBPLibrary.generated.h
