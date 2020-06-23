@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Windows/MinWindows.h"
-#define BUFFERSIZE 32
+#define BUFFERSIZE 256
 
 union COMMANDBUFFER {
 	unsigned char command[BUFFERSIZE];
