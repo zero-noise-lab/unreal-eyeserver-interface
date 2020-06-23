@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-EyeServer.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Work\Projects\VR_Setup\DaqTest\Intermediate\Build\Win64\DaqTestEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Intermediate\Build\Win64\UE4Editor\Development\EyeServer\Module.EyeServer.cpp.obj"
+"C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Intermediate\Build\Win64\UE4Editor\Development\EyeServer\Module.EyeServer.gen.cpp.obj"
+"C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Intermediate\Build\Win64\UE4Editor\Development\EyeServer\Default.rc2.res"
+/OUT:"C:\Work\Projects\VR_Setup\DaqTest\Plugins\EyeServer\Intermediate\Build\Win64\UE4Editor\Development\EyeServer\UE4Editor-EyeServer.lib"
+/INCLUDE:IMPLEMENT_MODULE_EyeServer

@@ -1,0 +1,13 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.EyeServer.cpp.obj": [
+			"EyeServer.cpp.obj",
+			"EyeServerBPLibrary.cpp.obj"
+		],
+		"Module.EyeServer.gen.cpp.obj": [
+			"EyeServer.init.gen.cpp.obj",
+			"EyeServerBPLibrary.gen.cpp.obj"
+		]
+	}
+}
