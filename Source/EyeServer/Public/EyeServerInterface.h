@@ -16,11 +16,17 @@ public:
 	static DWORD Connect();
 	static DWORD Disconnect();
 	static DWORD StartEyeLinkServerProcess();
-	static DWORD StopEyeLinkServerProcess();
+	static DWORD StopEyeLinkServerProcess();	
+	static DWORD StartRecording();
+	static DWORD CreateTarget(float x, float y, float r, WORD * key);
+	static DWORD ReadAcknowledgement(WORD * pKey);
+	static auto GetEyePosition();
 
 private:
 	static HANDLE hPipe;
 	static PROCESS_INFORMATION processInformation;
 	static STARTUPINFOA startupInfo;	
+	static HANDLE hEyePosMap;
+	static LPVOID pEyePosMem;
 };
 

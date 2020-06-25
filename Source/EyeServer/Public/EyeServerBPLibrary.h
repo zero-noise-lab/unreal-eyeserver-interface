@@ -33,4 +33,19 @@ class UEyeServerBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
 		static void Disconnect();
 
+	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+		static void StartEyeLinkServerProcess();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+		static void StopEyeLinkServerProcess();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+		static void StartRecording();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+		static int CreateTarget(float x, float y, float r);
+
+	static FProcHandle hProcess;
+
+
 };
