@@ -27,23 +27,29 @@ class UEyeServerBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void Connect();
 
-	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void Disconnect();
 
-	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void StartEyeLinkServerProcess();
 
-	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void StopEyeLinkServerProcess();
 
-	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void StartRecording();
 
-	UFUNCTION(BlueprintCallable, Category = "EyeLinkServer")
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static int CreateTarget(float x, float y, float r);
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static bool IsEyeOnTarget(FString name);
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void GetEyePosition(float& x, float& y);
 
 	static FProcHandle hProcess;
 

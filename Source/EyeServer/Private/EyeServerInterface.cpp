@@ -12,11 +12,16 @@ STARTUPINFOA EyeServerInterface::startupInfo;
 HANDLE EyeServerInterface::hEyePosMap = INVALID_HANDLE_VALUE;
 LPVOID EyeServerInterface::pEyePosMem = nullptr;
 
+bool EyeServerInterface::recordingStarted = false;
+
 DWORD EyeServerInterface::Connect()
 {
+	// No need to connect again if already connected
 	if (EyeServerInterface::hPipe != INVALID_HANDLE_VALUE) {		
 		return S_OK;
 	}
+
+	// Connect to pipe
 	EyeServerInterface::hPipe = CreateFileA("\\\\.\\pipe\\EyeServerPipe",
 		GENERIC_READ | GENERIC_WRITE,
 		0,
@@ -24,20 +29,25 @@ DWORD EyeServerInterface::Connect()
 		OPEN_EXISTING,
 		0,
 		NULL);
-
-	if (EyeServerInterface::hPipe != INVALID_HANDLE_VALUE) 		 
+	if (EyeServerInterface::hPipe == INVALID_HANDLE_VALUE) 		 
 	{
-		return S_OK;
+		return GetLastError();
 	}
-	else {
+	
+	// Open shared memory
+	EyeServerInterface::hEyePosMap = OpenFileMappingA(FILE_MAP_READ, false, "EyePosition");	
+	if (EyeServerInterface::hEyePosMap == NULL)
+	{
 		return GetLastError();
 	}
 
-	// FIXME: add error checking
-	EyeServerInterface::hEyePosMap = OpenFileMappingA(FILE_MAP_READ, false, "EyePosition");	
 	EyeServerInterface::pEyePosMem = MapViewOfFile(EyeServerInterface::hEyePosMap, FILE_MAP_READ, NULL, NULL, NULL);
+	if (EyeServerInterface::pEyePosMem == NULL)
+	{
+		return GetLastError();
+	}
 
-
+	return S_OK;
 
 }
 
@@ -62,7 +72,6 @@ DWORD EyeServerInterface::Disconnect()
 
 DWORD EyeServerInterface::StartEyeLinkServerProcess()
 {
-
 	ZeroMemory(&EyeServerInterface::startupInfo, sizeof(EyeServerInterface::startupInfo));
 	EyeServerInterface::startupInfo.cb = sizeof(EyeServerInterface::startupInfo);
 	ZeroMemory(&EyeServerInterface::processInformation, sizeof(EyeServerInterface::processInformation));
@@ -99,6 +108,10 @@ DWORD EyeServerInterface::StopEyeLinkServerProcess()
 DWORD EyeServerInterface::StartRecording()
 {
 
+	if (EyeServerInterface::recordingStarted) {
+		return S_OK;
+	}
+
 	#pragma pack(push, 1)
 	static struct {
 		unsigned short key = 0;
@@ -113,6 +126,7 @@ DWORD EyeServerInterface::StartRecording()
 		return GetLastError();
 	}
 
+	EyeServerInterface::recordingStarted = true;
 	return S_OK;
 }
 
@@ -121,9 +135,10 @@ DWORD EyeServerInterface::CreateTarget(float x, float y, float r, WORD * pKey)
 	#pragma pack(push, 1)
 	static struct {
 		unsigned short key = 0;
+		BYTE cmd = 1;
 		float x = 0.;
 		float y = 0.;
-		float r = 0.;
+		float r = 100.;
 		std::string name;
 	} targetMsg;
 	#pragma pack(pop)	
@@ -131,7 +146,7 @@ DWORD EyeServerInterface::CreateTarget(float x, float y, float r, WORD * pKey)
 	targetMsg.x = x;
 	targetMsg.y = y;
 	targetMsg.r = r;
-	targetMsg.name = "target";
+	targetMsg.name = "target" + 0;
 	
 	DWORD nBytesWritten = 0;
 	bool success = WriteFile(EyeServerInterface::hPipe, &targetMsg.key, sizeof(targetMsg), &nBytesWritten, NULL);
@@ -159,9 +174,13 @@ DWORD EyeServerInterface::ReadAcknowledgement(WORD * pKey)
 	
 }
 
-auto EyeServerInterface::GetEyePosition()
+DWORD EyeServerInterface::GetEyePosition(float& x, float& y)
 {
-	return *(std::array<float, 2>*) EyeServerInterface::pEyePosMem;			
+	std::array<float, 2> pos = *(std::array<float, 2>*) EyeServerInterface::pEyePosMem;
+	x = pos[0];
+	y = pos[1];
+
+	return S_OK;
 }
 
 

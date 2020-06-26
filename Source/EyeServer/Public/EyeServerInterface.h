@@ -20,7 +20,7 @@ public:
 	static DWORD StartRecording();
 	static DWORD CreateTarget(float x, float y, float r, WORD * key);
 	static DWORD ReadAcknowledgement(WORD * pKey);
-	static auto GetEyePosition();
+	static DWORD GetEyePosition(float& x, float& y);
 
 private:
 	static HANDLE hPipe;
@@ -28,5 +28,6 @@ private:
 	static STARTUPINFOA startupInfo;	
 	static HANDLE hEyePosMap;
 	static LPVOID pEyePosMem;
+	static bool recordingStarted;
 };
 
