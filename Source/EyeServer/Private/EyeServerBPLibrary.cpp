@@ -61,29 +61,28 @@ void UEyeServerBPLibrary::StartRecording()
 		TEXT("EyeServer: could not start recording"));
 }
 
-int UEyeServerBPLibrary::CreateTarget(float x, float y, float r)
+int UEyeServerBPLibrary::CreateTarget(float x, float y, float r, FString name)
 {
 	UE_LOG(LogTemp, Display, TEXT("Creating EyeServer target at x=%.2f, y=%.2f, r=%.2f"), x, y, r);
 
 	WORD key = 0;	
-	ensureMsgf(EyeServerInterface::CreateTarget(x, y, r, &key) == S_OK,
+	ensureMsgf(EyeServerInterface::CreateTarget(x, y, r, &key, std::string(TCHAR_TO_UTF8(*name))) == S_OK,
 		TEXT("EyeServer: could not create target on EyeServer"));
-	UE_LOG(LogTemp, Display, TEXT("EyeServer: created target with key %d"), key);
+	UE_LOG(LogTemp, Display, TEXT("EyeServer: created target %s with key %d"), *name, key);
 
 	return key;
 }
 
 bool UEyeServerBPLibrary::IsEyeOnTarget(FString name)
 {	
-	name = TEXT("target");
 	HANDLE hEvent = CreateEventA(NULL, FALSE, FALSE, (std::string(TCHAR_TO_UTF8(*name)) + "In" + "\0").c_str() );
 	DWORD result = WaitForSingleObject(hEvent, 0);
 	if (result == WAIT_OBJECT_0) {
-		UE_LOG(LogTemp, Display, TEXT("EyeServer: eye is on target"));
+		UE_LOG(LogTemp, Display, TEXT("EyeServer: eye is on target %s"), *name);
 		return true;
 	}
 	else {
-		UE_LOG(LogTemp, Display, TEXT("EyeServer: eye is NOT on target"));
+		UE_LOG(LogTemp, Display, TEXT("EyeServer: eye is NOT on target %s"), *name);
 		return false;
 	}	
 }

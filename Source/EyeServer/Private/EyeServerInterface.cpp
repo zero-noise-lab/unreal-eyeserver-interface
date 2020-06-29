@@ -130,7 +130,7 @@ DWORD EyeServerInterface::StartRecording()
 	return S_OK;
 }
 
-DWORD EyeServerInterface::CreateTarget(float x, float y, float r, WORD * pKey)
+DWORD EyeServerInterface::CreateTarget(float x, float y, float r, WORD * pKey, std::string name)
 {
 	#pragma pack(push, 1)
 	static struct {
@@ -146,7 +146,7 @@ DWORD EyeServerInterface::CreateTarget(float x, float y, float r, WORD * pKey)
 	targetMsg.x = x;
 	targetMsg.y = y;
 	targetMsg.r = r;
-	targetMsg.name = "target" + 0;
+	targetMsg.name = name;
 	
 	DWORD nBytesWritten = 0;
 	bool success = WriteFile(EyeServerInterface::hPipe, &targetMsg.key, sizeof(targetMsg), &nBytesWritten, NULL);

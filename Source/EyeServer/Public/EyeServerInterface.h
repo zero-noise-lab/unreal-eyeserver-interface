@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Windows/MinWindows.h"
+#include <string>
 #define BUFFERSIZE 256
 
 union COMMANDBUFFER {
@@ -18,7 +19,7 @@ public:
 	static DWORD StartEyeLinkServerProcess();
 	static DWORD StopEyeLinkServerProcess();	
 	static DWORD StartRecording();
-	static DWORD CreateTarget(float x, float y, float r, WORD * key);
+	static DWORD CreateTarget(float x, float y, float r, WORD * key, std::string name);
 	static DWORD ReadAcknowledgement(WORD * pKey);
 	static DWORD GetEyePosition(float& x, float& y);
 
