@@ -19,6 +19,9 @@ public:
 	static DWORD StartEyeLinkServerProcess();
 	static DWORD StopEyeLinkServerProcess();	
 	static DWORD StartRecording();
+	static DWORD StartRecording(std::string filename);
+	static DWORD StopRecording();
+	static DWORD StopRecording(std::string filename);
 	static DWORD CreateTarget(float x, float y, float r, WORD * key, std::string name);
 	static DWORD ReadAcknowledgement(WORD * pKey);
 	static DWORD GetEyePosition(float& x, float& y);

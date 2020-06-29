@@ -61,6 +61,28 @@ void UEyeServerBPLibrary::StartRecording()
 		TEXT("EyeServer: could not start recording"));
 }
 
+void UEyeServerBPLibrary::StartRecording(FString filename)
+{
+	UE_LOG(LogTemp, Display, TEXT("EyeServer: starting recording with filename %s"), *filename);
+	ensureMsgf(EyeServerInterface::StartRecording(std::string(TCHAR_TO_UTF8(*filename))) == 0,
+		TEXT("EyeServer: could not start recording"));
+}
+
+void UEyeServerBPLibrary::StopRecording()
+{
+	UE_LOG(LogTemp, Display, TEXT("EyeServer: stopping recording without EDF"));
+	ensureMsgf(EyeServerInterface::StopRecording() == 0,
+		TEXT("EyeServer: could not stop recording"));
+}
+
+void UEyeServerBPLibrary::StopRecording(FString filename)
+{
+	UE_LOG(LogTemp, Display, TEXT("EyeServer: stopping recording and copying to file %s"), *filename);
+	ensureMsgf(EyeServerInterface::StopRecording(std::string(TCHAR_TO_UTF8(*filename))) == 0,
+		TEXT("EyeServer: could not stop recording"));
+
+}
+
 int UEyeServerBPLibrary::CreateTarget(float x, float y, float r, FString name)
 {
 	UE_LOG(LogTemp, Display, TEXT("Creating EyeServer target at x=%.2f, y=%.2f, r=%.2f"), x, y, r);

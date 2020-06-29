@@ -108,9 +108,7 @@ DWORD EyeServerInterface::StopEyeLinkServerProcess()
 DWORD EyeServerInterface::StartRecording()
 {
 
-	if (EyeServerInterface::recordingStarted) {
-		return S_OK;
-	}
+
 
 	#pragma pack(push, 1)
 	static struct {
@@ -127,6 +125,89 @@ DWORD EyeServerInterface::StartRecording()
 	}
 
 	EyeServerInterface::recordingStarted = true;
+	return S_OK;
+}
+
+DWORD EyeServerInterface::StartRecording(std::string filename)
+{
+	if (EyeServerInterface::recordingStarted) {
+		return S_OK;
+	}
+
+	//[00 0 2 filename] start recording
+
+	#pragma pack(push, 1)
+	static struct {
+		unsigned short key = 0;
+		BYTE cmd[2] = { 0, 2 };
+		std::string filename;
+	} msg;
+	#pragma pack(pop)	
+
+	msg.filename = filename;
+
+	DWORD nBytesWritten = 0;
+	bool success = WriteFile(EyeServerInterface::hPipe, &msg.key, sizeof(msg), &nBytesWritten, NULL);
+	if ((!success) & (nBytesWritten == sizeof(msg)))
+	{
+		return GetLastError();
+	}
+
+	EyeServerInterface::recordingStarted = true;
+	return S_OK;
+}
+
+DWORD EyeServerInterface::StopRecording()
+{
+	// [00 0 0]
+	if (!EyeServerInterface::recordingStarted) {
+		return S_OK;
+	}
+	#pragma pack(push, 1)
+	static struct {
+		unsigned short key = 0;
+		BYTE cmd[2] = { 0, 0 };
+	} msg;
+	#pragma pack(pop)
+	DWORD nBytesWritten = 0;
+	bool success = WriteFile(EyeServerInterface::hPipe, &msg.key, sizeof(msg), &nBytesWritten, NULL);
+	if ((!success) & (nBytesWritten == sizeof(msg)))
+	{
+		return GetLastError();
+	}
+
+	EyeServerInterface::recordingStarted = false;
+
+	return S_OK;
+}
+
+DWORD EyeServerInterface::StopRecording(std::string filename)
+{
+	// [00 0 0 filename]
+	if (!EyeServerInterface::recordingStarted) {
+		return S_OK;
+	}
+	#pragma pack(push, 1)
+	static struct {
+		unsigned short key = 0;
+		BYTE cmd[2] = { 0, 0 };
+		std::string filename;
+	} msg;
+	#pragma pack(pop)
+	msg.filename = filename;
+
+	DWORD nBytesWritten = 0;
+	bool success = WriteFile(EyeServerInterface::hPipe, &msg.key, sizeof(msg), &nBytesWritten, NULL);
+	if ((!success) & (nBytesWritten == sizeof(msg)))
+	{
+		return GetLastError();
+	}
+
+	EyeServerInterface::recordingStarted = false;
+
+	HANDLE hEvent = CreateEventA(nullptr, false, false, "EyeServerDone");
+	DWORD result = WaitForSingleObject(hEvent, DWORD(180000));
+
 	return S_OK;
 }
 
