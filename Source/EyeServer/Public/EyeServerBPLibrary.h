@@ -43,13 +43,13 @@ class UEyeServerBPLibrary : public UBlueprintFunctionLibrary
 		static void StartRecording();
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
-		static void StartRecording(FString filename);
+		static void StartRecordingWithFile(FString filename);
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void StopRecording();
 	
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
-		static void StopRecording(FString filename);
+		static void StopRecordingWithFile(FString filename);
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static int CreateTarget(float x, float y, float r, FString name);
