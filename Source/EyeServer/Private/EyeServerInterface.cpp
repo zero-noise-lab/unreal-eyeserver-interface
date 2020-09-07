@@ -54,11 +54,10 @@ DWORD EyeServerInterface::Connect()
 DWORD EyeServerInterface::Disconnect()
 {
 	// Close pipe
-	bool disconnectSuccess = DisconnectNamedPipe(hPipe);
 	bool closeSuccess = CloseHandle(hPipe);
 	EyeServerInterface::hPipe = INVALID_HANDLE_VALUE;
 
-	if (disconnectSuccess & closeSuccess) {
+	if (closeSuccess) {
 		return S_OK;
 	}
 	else
