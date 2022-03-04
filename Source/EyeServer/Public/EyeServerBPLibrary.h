@@ -37,7 +37,13 @@ class UEyeServerBPLibrary : public UBlueprintFunctionLibrary
 		static void StartEyeLinkServerProcess();
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
-		static void StopEyeLinkServerProcess();
+		static void StartiRecServerProcess();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void StopEyeServerProcess();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static bool isEyeServerRunning();
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void StartRecording();
@@ -55,10 +61,28 @@ class UEyeServerBPLibrary : public UBlueprintFunctionLibrary
 		static int CreateTarget(float x, float y, float r, FString name);
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void RemoveAllTargets();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void RemoveTarget(int key);
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void ResizeTarget(int key, float r);
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static bool IsEyeOnTarget(FString name);
 
 	UFUNCTION(BlueprintCallable, Category = "EyeServer")
 		static void GetEyePosition(float& x, float& y);
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void RescaleDisplay();
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void SendiRecEventmarker(int code);
+
+	UFUNCTION(BlueprintCallable, Category = "EyeServer")
+		static void AcceptiRecPoint();
 
 	static FProcHandle hProcess;
 

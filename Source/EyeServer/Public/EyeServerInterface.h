@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Windows/MinWindows.h"
+#include <vector>
 #include <string>
 #define BUFFERSIZE 256
 
@@ -17,14 +18,21 @@ public:
 	static DWORD Connect();
 	static DWORD Disconnect();
 	static DWORD StartEyeLinkServerProcess();
-	static DWORD StopEyeLinkServerProcess();	
+	static DWORD iRecStart();
+	static DWORD StopEyeServerProcess();	
 	static DWORD StartRecording();
 	static DWORD StartRecording(std::string filename);
 	static DWORD StopRecording();
 	static DWORD StopRecording(std::string filename);
-	static DWORD CreateTarget(float x, float y, float r, WORD * key, std::string name);
-	static DWORD ReadAcknowledgement(WORD * pKey);
+	static DWORD CreateTarget(float x, float y, float r, unsigned short *pKey, std::string name);
+	static DWORD ReadAcknowledgement(unsigned short *pKey);
+	static DWORD RemoveTarget(unsigned short pKey);
+	static DWORD RemoveAllTargets();
+	static DWORD ResizeTarget(unsigned short pKey, float r);
 	static DWORD GetEyePosition(float& x, float& y);
+	static DWORD RescaleDisplay();
+	static DWORD SendiRecEventmarker(signed int markercode);
+	static DWORD AcceptiRecCalibrationPoint();
 
 private:
 	static HANDLE hPipe;
@@ -33,5 +41,6 @@ private:
 	static HANDLE hEyePosMap;
 	static LPVOID pEyePosMem;
 	static bool recordingStarted;
+	static std::vector < unsigned short > targetKeys;
 };
 
